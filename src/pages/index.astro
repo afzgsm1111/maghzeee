@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#09090b">
-<meta name="description" content="مغزه — رسانهٔ تخصصی هوش مصنوعی فارسی. آموزش، اخبار و ابزارهای AI به زبان ساده.">
-<title>مدل‌های زبانی بزرگ چگونه کار می‌کنند؟ | مغزه</title>
+<meta name="theme-color" content="#f7f7fb">
+<meta name="description" content="مغزه — رسانهٔ تخصصی هوش مصنوعی فارسی. آموزش‌های ساده، اخبار و ابزارهای AI به زبان روزمره.">
+<title>هوش مصنوعی چیست؟ راهنمای ساده برای شروع | مغزه</title>
 
 <!-- Vazirmatn via CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,22 +14,23 @@
 
 <style>
 /* ============================================================
-   1. Design Tokens
+   1. Design Tokens — Light Theme
 ============================================================ */
 :root{
-  --bg:#09090b;
-  --surface:#131316;
-  --surface-2:#1b1b20;
-  --border:rgba(255,255,255,.07);
-  --border-2:rgba(255,255,255,.14);
-  --text:#f4f4f6;
-  --text-2:#c9c9d1;
-  --muted:#8e8e99;
-  --purple:#a855f7;
-  --blue:#3b82f6;
-  --indigo:#6366f1;
+  --bg:#f7f7fb;
+  --surface:#ffffff;
+  --surface-2:#f1f1f6;
+  --border:rgba(20,20,40,.09);
+  --border-2:rgba(20,20,40,.16);
+  --text:#1c1c22;
+  --text-2:#43434e;
+  --muted:#74747f;
+  --purple:#7c3aed;
+  --blue:#2563eb;
+  --indigo:#4f46e5;
   --grad:linear-gradient(100deg,var(--purple),var(--indigo) 52%,var(--blue));
-  --grad-soft:linear-gradient(100deg,rgba(168,85,247,.14),rgba(59,130,246,.14));
+  --grad-soft:linear-gradient(100deg,rgba(124,58,237,.1),rgba(37,99,235,.1));
+  --glow:rgba(124,58,237,.28);
   --radius:16px;
   --header-h:68px;
   --fs:1; /* article font-scale (controlled by reader) */
@@ -38,7 +39,7 @@
 /* ============================================================
    2. Base / Reset
 ============================================================ */
-*,*::before,*::after{box-sizing:margin-box;box-sizing:border-box}
+*,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:100px}
 body{
   margin:0;
@@ -46,60 +47,61 @@ body{
   background:var(--bg);
   color:var(--text-2);
   font-size:1rem;
-  line-height:1.9;
+  line-height:1.95;
   overflow-x:clip;
   -webkit-font-smoothing:antialiased;
 }
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit}
-::selection{background:rgba(168,85,247,.4);color:#fff}
+::selection{background:rgba(124,58,237,.22);color:var(--text)}
 ::-webkit-scrollbar{width:10px;height:8px}
 ::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:#27272a;border-radius:99px}
-::-webkit-scrollbar-thumb:hover{background:#3f3f46}
+::-webkit-scrollbar-thumb{background:#d6d6e0;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#b9b9c8}
 :focus-visible{outline:2px solid var(--purple);outline-offset:2px;border-radius:6px}
 
 .container{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,28px)}
 .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-mark{background:rgba(168,85,247,.35);color:#fff;border-radius:3px;padding:0 2px}
+mark{background:rgba(124,58,237,.18);color:var(--text);border-radius:3px;padding:0 2px}
 
 .skip-link{
   position:fixed;top:-60px;inset-inline-start:16px;z-index:2000;
-  background:var(--surface-2);color:#fff;padding:10px 18px;border-radius:10px;
-  border:1px solid var(--border-2);transition:top .25s;
+  background:var(--surface);color:var(--text);padding:10px 18px;border-radius:10px;
+  border:1px solid var(--border-2);box-shadow:0 10px 30px -12px rgba(28,28,34,.25);
+  transition:top .25s;
 }
 .skip-link:focus{top:12px}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
 /* ============================================================
-   3. Reading Progress Bar (top of viewport)
+   3. Reading Progress Bar
 ============================================================ */
 .progress{position:fixed;top:0;inset-inline:0;height:3px;z-index:1200;pointer-events:none}
-.progress span{display:block;height:100%;width:0;background:var(--grad);box-shadow:0 0 12px rgba(168,85,247,.8)}
+.progress span{display:block;height:100%;width:0;background:var(--grad);box-shadow:0 0 10px var(--glow)}
 
 /* ============================================================
-   4. Global Header (Glassmorphism)
+   4. Global Header (Glassmorphism — Light)
 ============================================================ */
 .site-header{
   position:sticky;top:0;z-index:1000;
-  background:rgba(9,9,11,.72);
+  background:rgba(255,255,255,.72);
   backdrop-filter:blur(18px) saturate(1.4);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
   border-bottom:1px solid var(--border);
   transition:background .3s,box-shadow .3s;
 }
-.site-header.scrolled{background:rgba(9,9,11,.9);box-shadow:0 12px 32px -18px rgba(0,0,0,.9)}
+.site-header.scrolled{background:rgba(255,255,255,.9);box-shadow:0 10px 32px -20px rgba(28,28,40,.25)}
 .header-inner{display:flex;align-items:center;gap:24px;height:var(--header-h)}
 
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .logo-brain{font-size:1.55rem;line-height:1;animation:brainPulse 3.2s ease-in-out infinite}
-@keyframes brainPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes brainPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 .logo-text{font-size:1.6rem;font-weight:900;line-height:1}
 .logo-domain{
-  font-size:.62rem;font-weight:600;letter-spacing:.06em;color:var(--muted);
-  border:1px solid var(--border);border-radius:99px;padding:2px 9px;align-self:center;
+  font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--muted);
+  border:1px solid var(--border);border-radius:99px;padding:2px 9px;align-self:center;background:var(--surface);
 }
 
 .main-nav{display:flex;gap:4px;margin-inline-start:16px}
@@ -107,55 +109,56 @@ mark{background:rgba(168,85,247,.35);color:#fff;border-radius:3px;padding:0 2px}
   position:relative;padding:8px 14px;border-radius:10px;
   font-size:.92rem;font-weight:500;color:var(--text-2);transition:color .25s,background .25s;
 }
-.main-nav a:hover{color:#fff;background:rgba(255,255,255,.05)}
-.main-nav a.active{color:transparent;background:transparent}
-.main-nav a.active::before{
-  content:'';position:absolute;inset:6px 8px;border-radius:9px;z-index:-1;
-  background:var(--grad);opacity:.13;
+.main-nav a:hover{color:var(--text);background:var(--surface-2)}
+.main-nav a.active{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;font-weight:700;
 }
-.main-nav a.active{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.main-nav a.active::after{
+  content:'';position:absolute;inset-inline:12px;bottom:2px;height:2px;border-radius:99px;
+  background:var(--grad);
+}
 
 /* Search */
 .search-box{
   position:relative;display:flex;align-items:center;gap:9px;
   margin-inline-start:auto;width:240px;
-  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  background:var(--surface);border:1px solid var(--border);
   border-radius:12px;padding:8px 13px;color:var(--muted);
-  transition:border-color .25s,box-shadow .25s,background .25s;
+  transition:border-color .25s,box-shadow .25s;
 }
 .search-box:focus-within{
-  border-color:rgba(168,85,247,.55);background:rgba(255,255,255,.07);
-  box-shadow:0 0 0 3px rgba(168,85,247,.14);
+  border-color:rgba(124,58,237,.5);
+  box-shadow:0 0 0 3px rgba(124,58,237,.12);
 }
 .search-box input{flex:1;min-width:0;background:none;border:0;outline:none;color:var(--text);font:inherit;font-size:.88rem}
 .search-box input::placeholder{color:var(--muted)}
 .search-box svg{flex-shrink:0}
 kbd{
   font-family:inherit;font-size:.7rem;color:var(--muted);
-  background:rgba(255,255,255,.07);border:1px solid var(--border-2);
+  background:var(--surface-2);border:1px solid var(--border);
   border-radius:5px;padding:1px 8px;
 }
 .search-results{
   position:absolute;top:calc(100% + 10px);inset-inline:0;min-width:290px;
-  background:rgba(19,19,22,.97);backdrop-filter:blur(16px);
-  border:1px solid var(--border-2);border-radius:14px;padding:6px;
-  box-shadow:0 24px 60px -20px rgba(0,0,0,.85);z-index:60;max-height:320px;overflow:auto;
+  background:var(--surface);border:1px solid var(--border-2);border-radius:14px;padding:6px;
+  box-shadow:0 24px 60px -22px rgba(28,28,40,.35);z-index:60;max-height:320px;overflow:auto;
 }
 .search-results[hidden]{display:none}
 .search-results button{
   display:flex;flex-direction:column;gap:2px;width:100%;text-align:start;
   background:none;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;
-  color:var(--text-2);transition:background .2s,color .2s;
+  color:var(--text-2);transition:background .2s;
 }
-.search-results button:hover{background:rgba(168,85,247,.1);color:#fff}
-.sr-cat{font-size:.68rem;color:var(--purple);font-weight:600}
+.search-results button:hover{background:rgba(124,58,237,.08)}
+.sr-cat{font-size:.68rem;color:var(--purple);font-weight:700}
 .sr-title{font-size:.85rem;line-height:1.7}
 .sr-empty{padding:14px;text-align:center;color:var(--muted);font-size:.85rem}
 
 /* Hamburger + mobile menu */
 .menu-toggle{
   display:none;position:relative;width:42px;height:42px;margin-inline-start:auto;
-  background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);border-radius:11px;cursor:pointer;
 }
 .menu-toggle span{
   position:absolute;inset-inline-start:11px;width:19px;height:2px;border-radius:2px;
@@ -166,11 +169,11 @@ kbd{
 .menu-toggle.open span:nth-child(1){top:19px;transform:rotate(45deg)}
 .menu-toggle.open span:nth-child(2){top:19px;transform:rotate(-45deg)}
 
-.mobile-menu{overflow:hidden;max-height:0;transition:max-height .38s ease;border-top:1px solid transparent}
+.mobile-menu{overflow:hidden;max-height:0;transition:max-height .38s ease;border-top:1px solid transparent;background:rgba(255,255,255,.95);backdrop-filter:blur(14px)}
 .site-header.menu-open .mobile-menu{max-height:440px;border-top-color:var(--border)}
 .mobile-menu nav{display:flex;flex-direction:column;padding:10px 0 18px}
 .mobile-menu nav a{padding:12px 4px;font-size:1rem;color:var(--text-2);border-bottom:1px dashed var(--border)}
-.mobile-menu nav a:hover{color:#fff}
+.mobile-menu nav a:hover{color:var(--text)}
 .mobile-menu .search-box{width:100%;margin:18px 0 0}
 
 /* ============================================================
@@ -180,8 +183,8 @@ kbd{
 .hero-glow{
   position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(560px 300px at 78% 0%,rgba(168,85,247,.13),transparent 70%),
-    radial-gradient(520px 280px at 18% 8%,rgba(59,130,246,.11),transparent 70%);
+    radial-gradient(560px 300px at 78% 0%,rgba(124,58,237,.1),transparent 70%),
+    radial-gradient(520px 280px at 18% 8%,rgba(37,99,235,.09),transparent 70%);
 }
 .post-head .container{position:relative}
 
@@ -194,14 +197,14 @@ kbd{
 .post-badges{display:flex;justify-content:center;gap:10px;animation-delay:.05s}
 .badge{
   display:inline-flex;align-items:center;gap:7px;
-  font-size:.78rem;font-weight:600;color:#fff;
+  font-size:.78rem;font-weight:700;color:var(--purple);
   padding:6px 15px;border-radius:99px;
-  background:var(--grad-soft);border:1px solid rgba(168,85,247,.4);
+  background:var(--grad-soft);border:1px solid rgba(124,58,237,.3);
   transition:border-color .25s,box-shadow .25s;
 }
 .badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grad)}
-.badge:hover{border-color:var(--purple);box-shadow:0 0 18px -4px rgba(168,85,247,.6)}
-.badge.ghost{background:none;border-color:var(--border-2);color:var(--text-2)}
+.badge:hover{border-color:var(--purple);box-shadow:0 6px 20px -8px var(--glow)}
+.badge.ghost{background:var(--surface);border-color:var(--border);color:var(--muted)}
 .badge.ghost::before{display:none}
 
 .post-title{
@@ -214,18 +217,18 @@ kbd{
   display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;
   font-size:.86rem;color:var(--muted);animation-delay:.28s;
 }
-.meta-author{display:inline-flex;align-items:center;gap:10px;color:var(--text-2);font-weight:600}
+.meta-author{display:inline-flex;align-items:center;gap:10px;color:var(--text);font-weight:600}
 .avatar{
   width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
   background:var(--grad);color:#fff;font-weight:800;font-size:1rem;
 }
 .meta-item{display:inline-flex;align-items:center;gap:7px}
-.meta-sep{width:4px;height:4px;border-radius:50%;background:#3f3f46}
+.meta-sep{width:4px;height:4px;border-radius:50%;background:#c9c9d6}
 
 .post-cover{margin:38px 0 0;animation:fadeUp .8s .35s cubic-bezier(.2,.7,.2,1) both}
 .post-cover .frame{
   border:1px solid var(--border);border-radius:20px;overflow:hidden;
-  box-shadow:0 30px 90px -40px rgba(99,102,241,.4);
+  box-shadow:0 30px 70px -35px rgba(79,70,229,.35);
 }
 .post-cover img{width:100%;aspect-ratio:21/9;object-fit:cover}
 .post-cover figcaption{text-align:center;font-size:.8rem;color:var(--muted);margin-top:12px}
@@ -240,6 +243,7 @@ kbd{
   display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
   background:var(--surface);border:1px solid var(--border);border-radius:14px;
   padding:10px 16px;margin-bottom:38px;
+  box-shadow:0 8px 24px -18px rgba(28,28,40,.2);
 }
 .rt-group{display:flex;align-items:center;gap:9px}
 .rt-label{font-size:.84rem;color:var(--muted)}
@@ -248,54 +252,56 @@ kbd{
   background:var(--surface-2);border:1px solid var(--border);border-radius:9px;
   color:var(--text-2);transition:border-color .25s,color .25s;
 }
-.rt-btn:hover:not(:disabled){color:#fff;border-color:rgba(168,85,247,.55)}
-.rt-btn:disabled{opacity:.3;cursor:default}
-.rt-val{font-size:.8rem;color:var(--text);min-width:42px;text-align:center;font-weight:600}
+.rt-btn:hover:not(:disabled){color:var(--purple);border-color:rgba(124,58,237,.5)}
+.rt-btn:disabled{opacity:.35;cursor:default}
+.rt-val{font-size:.8rem;color:var(--text);min-width:42px;text-align:center;font-weight:700}
 .rt-progress{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--muted)}
-.rt-bar{width:110px;height:5px;border-radius:99px;background:#232329;overflow:hidden}
+.rt-bar{width:110px;height:5px;border-radius:99px;background:#e6e6ef;overflow:hidden}
 .rt-bar span{display:block;height:100%;width:0;background:var(--grad);transition:width .2s linear}
 
-/* --- TOC : the "reading synapse" --- */
+/* --- TOC : "reading synapse" --- */
 .toc{
   position:sticky;top:calc(var(--header-h) + 22px);
   max-height:calc(100vh - 140px);overflow:auto;
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:18px 16px;
+  box-shadow:0 12px 34px -24px rgba(28,28,40,.3);
 }
 .toc-head{
   display:flex;justify-content:space-between;align-items:center;
   padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--border);
 }
-.toc-head .toc-title{display:flex;align-items:center;gap:9px;font-size:.95rem;font-weight:700;color:#fff}
+.toc-head .toc-title{display:flex;align-items:center;gap:9px;font-size:.95rem;font-weight:800;color:var(--text)}
 .toc-title::before{content:'';width:8px;height:8px;border-radius:2px;background:var(--grad);transform:rotate(45deg)}
 .toc-chip{
-  font-size:.72rem;font-weight:700;padding:3px 11px;border-radius:99px;
-  background:var(--grad-soft);border:1px solid rgba(168,85,247,.32);
+  font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:99px;
+  background:var(--grad-soft);border:1px solid rgba(124,58,237,.25);
 }
 .toc-list{list-style:none;margin:0;padding:8px 0;position:relative}
-.toc-list::before{content:'';position:absolute;inset-inline-start:3px;top:14px;bottom:14px;width:2px;border-radius:2px;background:#26262c}
-.toc-fill{position:absolute;inset-inline-start:3px;top:14px;width:2px;height:0;border-radius:2px;background:var(--grad);box-shadow:0 0 8px rgba(168,85,247,.7);transition:height .35s ease}
+.toc-list::before{content:'';position:absolute;inset-inline-start:3px;top:14px;bottom:14px;width:2px;border-radius:2px;background:#e6e6ef}
+.toc-fill{position:absolute;inset-inline-start:3px;top:14px;width:2px;height:0;border-radius:2px;background:var(--grad);box-shadow:0 0 7px var(--glow);transition:height .35s ease}
 .toc-list a{
-  position:relative;display:block;padding:7px 0 7px 0;padding-inline-start:22px;
+  position:relative;display:block;padding:7px 0;
+  padding-inline-start:22px;
   font-size:.86rem;line-height:1.7;color:var(--muted);transition:color .25s;
 }
 .toc-list a::before{
   content:'';position:absolute;inset-inline-start:0;top:50%;transform:translateY(-50%);
-  width:10px;height:10px;border-radius:50%;background:#2f2f38;border:2px solid var(--bg);
+  width:10px;height:10px;border-radius:50%;background:#dcdce8;border:2px solid var(--surface);
   transition:background .25s,box-shadow .25s;
 }
 .toc-list a:hover{color:var(--text)}
-.toc-list a.is-done::before{background:rgba(168,85,247,.45)}
-.toc-list a.is-active{color:#fff;font-weight:600}
+.toc-list a.is-done::before{background:rgba(124,58,237,.45)}
+.toc-list a.is-active{color:var(--text);font-weight:700}
 .toc-list a.is-active span{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.toc-list a.is-active::before{background:var(--purple);box-shadow:0 0 0 4px rgba(168,85,247,.16),0 0 12px rgba(168,85,247,.9)}
+.toc-list a.is-active::before{background:var(--purple);box-shadow:0 0 0 4px rgba(124,58,237,.15),0 0 10px var(--glow)}
 .toc-list a.lvl-3 span{padding-inline-start:13px}
 
 /* --- Mobile TOC (collapsible) --- */
 .toc-mobile{display:none;margin:0 0 34px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .toc-mobile summary{
   display:flex;justify-content:space-between;align-items:center;cursor:pointer;
-  padding:14px 18px;font-weight:700;color:#fff;font-size:.95rem;list-style:none;
+  padding:14px 18px;font-weight:800;color:var(--text);font-size:.95rem;list-style:none;
 }
 .toc-mobile summary::-webkit-details-marker{display:none}
 .toc-mobile .chev{transition:transform .3s;color:var(--muted)}
@@ -306,86 +312,86 @@ kbd{
 .toc-mobile .toc-list li:last-child{border-bottom:0}
 .toc-mobile .toc-list a{padding-inline-start:0;font-size:.9rem}
 .toc-mobile .toc-list a::before{display:none}
-.toc-mobile .toc-list a.is-active{color:#d8b4fe}
+.toc-mobile .toc-list a.is-active{color:var(--purple)}
 
 /* ============================================================
    7. Article Typography
 ============================================================ */
 .post-body{
   font-size:calc(1.0625rem * var(--fs));
-  line-height:2.05;color:var(--text-2);text-align:justify;
+  line-height:2.1;color:var(--text-2);text-align:justify;
   overflow-wrap:break-word;
 }
 .post-body p{margin:0 0 1.4em}
-.post-body strong{color:#fafafa;font-weight:700}
+.post-body strong{color:var(--text);font-weight:700}
 .post-body a{
-  color:#c4b5fd;text-decoration:underline;text-underline-offset:4px;
-  text-decoration-color:rgba(168,85,247,.45);transition:color .2s;
+  color:var(--purple);font-weight:500;
+  text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:rgba(124,58,237,.4);transition:color .2s;
 }
-.post-body a:hover{color:#e9d5ff}
+.post-body a:hover{color:var(--indigo)}
 .post-body h2{
-  font-size:1.55em;font-weight:800;color:#fafafa;line-height:1.55;
+  font-size:1.55em;font-weight:800;color:var(--text);line-height:1.55;
   margin:2.2em 0 .9em;position:relative;padding-inline-start:20px;scroll-margin-top:110px;
-}
-.post-body h2::before{
-  content:'';position:absolute;inset-inline-start:0;top:.34em;height:.34em... 
 }
 .post-body h2::before{
   content:'';position:absolute;inset-inline-start:0;top:.35em;width:5px;border-radius:99px;
   height:1.15em;background:var(--grad);
 }
-.post-body h3{font-size:1.22em;font-weight:700;color:#f1f1f4;margin:1.8em 0 .7em;scroll-margin-top:110px}
-.post-body ul{padding-inline-start:1.3em;margin:0 0 1.4em}
-.post-body li{margin-bottom:.55em}
-.post-body li::marker{color:var(--purple)}
+.post-body h3{font-size:1.22em;font-weight:700;color:var(--text);margin:1.8em 0 .7em;scroll-margin-top:110px}
+.post-body ul,.post-body ol{padding-inline-start:1.4em;margin:0 0 1.4em}
+.post-body li{margin-bottom:.6em}
+.post-body li::marker{color:var(--purple);font-weight:700}
 
 /* Blockquote */
 .post-body blockquote{
   position:relative;margin:2em 0;padding:24px 28px;overflow:hidden;
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:0 10px 30px -22px rgba(28,28,40,.25);
 }
 .post-body blockquote::before{content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--grad)}
-.post-body blockquote p{font-size:1.05em;line-height:2.15;color:#dcdce3;margin:0}
+.post-body blockquote p{font-size:1.05em;line-height:2.15;color:var(--text);margin:0}
 .post-body blockquote cite{display:block;margin-top:12px;font-style:normal;font-size:.84em;color:var(--muted)}
 .post-body blockquote cite::before{content:'— '}
 
 /* Callouts */
 .callout{display:flex;gap:14px;margin:1.8em 0;padding:18px 20px;border:1px solid;border-radius:var(--radius);text-align:start}
 .callout svg{flex-shrink:0;margin-top:4px}
-.callout .callout-title{font-weight:700;color:#fff;font-size:.95em;margin-bottom:3px}
+.callout .callout-title{font-weight:800;color:var(--text);font-size:.95em;margin-bottom:3px}
 .callout p{margin:0;font-size:.93em;line-height:1.95}
-.callout.tip{background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.28)}
-.callout.tip svg{color:#c084fc}
-.callout.warn{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.3)}
-.callout.warn svg{color:#fbbf24}
+.callout.tip{background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.25)}
+.callout.tip svg{color:var(--purple)}
+.callout.warn{background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.3)}
+.callout.warn svg{color:#d97706}
 
-/* Code block */
-.code-card{direction:ltr;margin:2em 0;border:1px solid var(--border);border-radius:var(--radius);background:#0c0c10;overflow:hidden}
-.code-head{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
-.code-title{font:600 .76rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted);letter-spacing:.05em}
+/* Prompt card (with copy button) */
+.prompt-card{direction:rtl;margin:2em 0;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden}
+.prompt-head{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.prompt-title{font-size:.78rem;font-weight:700;color:var(--muted)}
 .copy-btn{
   display:inline-flex;align-items:center;gap:6px;cursor:pointer;
-  font-size:.76rem;color:var(--text-2);background:rgba(255,255,255,.05);
+  font-size:.76rem;font-weight:600;color:var(--text-2);background:var(--surface);
   border:1px solid var(--border);border-radius:8px;padding:5px 11px;
   transition:color .2s,border-color .2s;
 }
-.copy-btn:hover{color:#fff;border-color:rgba(168,85,247,.55)}
-.code-card pre{margin:0;padding:20px;overflow-x:auto;direction:ltr;text-align:left;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:.85em;line-height:2;color:#d4d4d8;
+.copy-btn:hover{color:var(--purple);border-color:rgba(124,58,237,.5)}
+.prompt-card .copy-target{
+  margin:0;padding:20px;font-size:.95em;line-height:2.1;color:var(--text);
+  quotes:'«' '»';
 }
-.tk-k{color:#c084fc}.tk-s{color:#86efac}.tk-c{color:#6b7280}.tk-f{color:#7dd3fc}
+.prompt-card .copy-target::before{content:open-quote;color:var(--purple);font-weight:800}
+.prompt-card .copy-target::after{content:close-quote;color:var(--purple);font-weight:800}
 
 /* Table */
-.table-wrap{overflow-x:auto;margin:2em 0;border:1px solid var(--border);border-radius:var(--radius)}
+.table-wrap{overflow-x:auto;margin:2em 0;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
 .table-wrap table{width:100%;min-width:560px;border-collapse:collapse;font-size:.9em;text-align:start}
-.table-wrap th{background:var(--surface);color:#fff;font-weight:700;text-align:start;padding:13px 18px;border-bottom:1px solid var(--border-2)}
-.table-wrap td{padding:13px 18px;border-bottom:1px solid var(--border)}
+.table-wrap th{background:var(--surface-2);color:var(--text);font-weight:700;text-align:start;padding:13px 18px;border-bottom:1px solid var(--border-2)}
+.table-wrap td{padding:13px 18px;border-bottom:1px solid var(--border);vertical-align:top}
 .table-wrap tr:last-child td{border-bottom:0}
-.table-wrap tbody tr:hover{background:rgba(255,255,255,.02)}
-.pill{display:inline-block;font-size:.72rem;padding:3px 12px;border-radius:99px;border:1px solid}
-.pill.yes{color:#6ee7a0;border-color:rgba(110,231,160,.35);background:rgba(110,231,160,.08)}
-.pill.no{color:#a1a1aa;border-color:var(--border-2);background:rgba(255,255,255,.04)}
+.table-wrap tbody tr:hover{background:rgba(124,58,237,.03)}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:99px;border:1px solid}
+.pill.free{color:#15803d;border-color:rgba(21,128,61,.3);background:rgba(21,128,61,.07)}
+.pill.freemium{color:#b45309;border-color:rgba(180,83,9,.3);background:rgba(180,83,9,.07)}
 
 /* Tags / Share / Author */
 .tags{display:flex;flex-wrap:wrap;gap:10px;margin:2.6em 0 0}
@@ -394,7 +400,7 @@ kbd{
   border:1px solid var(--border);border-radius:99px;padding:6px 15px;cursor:pointer;
   transition:color .25s,border-color .25s,background .25s;
 }
-.tag:hover{color:#fff;border-color:rgba(168,85,247,.5);background:rgba(168,85,247,.08)}
+.tag:hover{color:var(--purple);border-color:rgba(124,58,237,.45);background:rgba(124,58,237,.06)}
 
 .share{display:flex;align-items:center;gap:11px;margin-top:30px;padding-top:26px;border-top:1px dashed var(--border-2);flex-wrap:wrap}
 .share-label{font-size:.88rem;font-weight:600;color:var(--muted);margin-inline-end:4px}
@@ -403,30 +409,31 @@ kbd{
   background:var(--surface);border:1px solid var(--border);color:var(--text-2);
   transition:transform .25s,color .25s,border-color .25s,box-shadow .25s;
 }
-.share-btn:hover{transform:translateY(-3px);color:#fff;border-color:rgba(168,85,247,.5);box-shadow:0 10px 24px -10px rgba(168,85,247,.5)}
+.share-btn:hover{transform:translateY(-3px);color:var(--purple);border-color:rgba(124,58,237,.45);box-shadow:0 10px 24px -12px var(--glow)}
 
 .author-box{
   position:relative;overflow:hidden;display:flex;gap:18px;align-items:flex-start;
   margin-top:44px;padding:24px;background:var(--surface);
   border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:0 12px 34px -26px rgba(28,28,40,.3);
 }
 .author-box::before{
   content:'';position:absolute;top:-70px;inset-inline-end:-70px;width:200px;height:200px;
-  background:radial-gradient(circle,rgba(168,85,247,.16),transparent 70%);pointer-events:none;
+  background:radial-gradient(circle,rgba(124,58,237,.12),transparent 70%);pointer-events:none;
 }
 .author-avatar{width:62px;height:62px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:var(--grad);color:#fff;font-weight:800;font-size:1.5rem}
-.author-box h3{margin:0 0 4px;font-size:1.02rem;color:#fff}
+.author-box h3{margin:0 0 4px;font-size:1.02rem;color:var(--text)}
 .author-box p{margin:0;font-size:.88rem;line-height:1.95;color:var(--muted);text-align:start}
 
 /* ============================================================
-   8. Related Articles (card language)
+   8. Related Articles
 ============================================================ */
 .related{margin-top:96px;padding-bottom:96px}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-.section-title{display:flex;align-items:center;gap:12px;font-size:1.45rem;font-weight:800;color:#fafafa;margin:0}
+.section-title{display:flex;align-items:center;gap:12px;font-size:1.45rem;font-weight:800;color:var(--text);margin:0}
 .section-title::before{content:'';width:9px;height:9px;border-radius:3px;background:var(--grad);transform:rotate(45deg)}
-.view-all{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);transition:color .25s}
-.view-all:hover{color:#fff}
+.view-all{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;color:var(--muted);transition:color .25s}
+.view-all:hover{color:var(--purple)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 
 .card{
@@ -435,28 +442,28 @@ kbd{
   transition:transform .35s,border-color .35s,box-shadow .35s;
 }
 .card:hover{
-  transform:translateY(-6px);border-color:rgba(168,85,247,.45);
-  box-shadow:0 0 0 1px rgba(168,85,247,.2),0 26px 60px -24px rgba(168,85,247,.35);
+  transform:translateY(-6px);border-color:rgba(124,58,237,.4);
+  box-shadow:0 26px 55px -24px var(--glow);
 }
 .card.flash{animation:flashRing 1.6s ease-out}
-@keyframes flashRing{0%{box-shadow:0 0 0 0 rgba(168,85,247,.65)}100%{box-shadow:0 0 0 26px rgba(168,85,247,0)}}
+@keyframes flashRing{0%{box-shadow:0 0 0 0 rgba(124,58,237,.5)}100%{box-shadow:0 0 0 26px rgba(124,58,237,0)}}
 .card-media{position:relative;aspect-ratio:16/10;overflow:hidden}
 .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .card:hover .card-media img{transform:scale(1.07)}
 .card-badge{
   position:absolute;top:12px;inset-inline-start:12px;
   display:inline-flex;align-items:center;gap:6px;
-  font-size:.74rem;font-weight:600;color:#fff;
-  background:rgba(9,9,11,.72);backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:5px 13px;
+  font-size:.74rem;font-weight:700;color:var(--text);
+  background:rgba(255,255,255,.85);backdrop-filter:blur(8px);
+  border:1px solid rgba(20,20,40,.1);border-radius:99px;padding:5px 13px;
 }
 .card-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grad)}
 .card-body{display:flex;flex-direction:column;gap:10px;padding:20px;flex:1}
 .card-meta{display:flex;gap:16px;font-size:.77rem;color:var(--muted)}
 .card-meta span{display:inline-flex;align-items:center;gap:6px}
-.card-title{margin:0;font-size:1.02rem;font-weight:700;line-height:1.75}
-.card-title a{color:#f1f1f4;transition:color .25s}
-.card-title a:hover{color:#fff}
+.card-title{margin:0;font-size:1.02rem;font-weight:700;line-height:1.8}
+.card-title a{color:var(--text);transition:color .25s}
+.card-title a:hover{color:var(--purple)}
 .card-title a::after{content:'';position:absolute;inset:0}
 .card-excerpt{
   margin:0;font-size:.86rem;line-height:1.95;color:var(--muted);
@@ -466,17 +473,17 @@ kbd{
 /* ============================================================
    9. Footer
 ============================================================ */
-.site-footer{position:relative;border-top:1px solid var(--border);background:#0b0b0e;overflow:hidden}
+.site-footer{position:relative;border-top:1px solid var(--border);background:var(--surface);overflow:hidden}
 .site-footer::before{
   content:'';position:absolute;top:-140px;inset-inline-start:50%;transform:translateX(50%);
-  width:640px;height:280px;background:radial-gradient(closest-side,rgba(168,85,247,.09),transparent);
+  width:640px;height:280px;background:radial-gradient(closest-side,rgba(124,58,237,.07),transparent);
   pointer-events:none;
 }
 .footer-grid{position:relative;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;padding:60px 0 46px}
 .footer-about p{font-size:.9rem;line-height:2.1;color:var(--muted);margin:18px 0 20px;max-width:42ch}
 .socials{display:flex;gap:10px}
 .footer-col h3{
-  position:relative;font-size:.95rem;font-weight:700;color:#fff;margin:0 0 18px;padding-inline-start:15px;
+  position:relative;font-size:.95rem;font-weight:800;color:var(--text);margin:0 0 18px;padding-inline-start:15px;
 }
 .footer-col h3::before{content:'';position:absolute;inset-inline-start:0;top:.28em;width:4px;height:1em;border-radius:99px;background:var(--grad)}
 .footer-col a{
@@ -484,12 +491,12 @@ kbd{
   padding:6px 0;font-size:.9rem;color:var(--muted);
   transition:color .25s,transform .25s;
 }
-.footer-col a:hover{color:#fff;transform:translateX(-4px)}
+.footer-col a:hover{color:var(--purple);transform:translateX(-4px)}
 .footer-bottom{
   display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
   border-top:1px solid var(--border);padding:20px 0;font-size:.85rem;color:var(--muted);
 }
-.footer-domain{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;letter-spacing:.05em;transition:color .25s}
+.footer-domain{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;letter-spacing:.04em;transition:color .25s}
 .footer-domain:hover{color:var(--purple)}
 
 /* ============================================================
@@ -498,21 +505,21 @@ kbd{
 .to-top{
   position:fixed;bottom:26px;inset-inline-end:26px;z-index:900;
   width:46px;height:46px;display:grid;place-items:center;cursor:pointer;
-  background:rgba(19,19,22,.85);backdrop-filter:blur(10px);
+  background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
   border:1px solid var(--border-2);border-radius:13px;color:var(--text-2);
   opacity:0;pointer-events:none;transform:translateY(14px);
   transition:opacity .3s,transform .3s,border-color .25s,box-shadow .25s;
 }
 .to-top.show{opacity:1;pointer-events:auto;transform:none}
-.to-top:hover{color:#fff;border-color:rgba(168,85,247,.6);box-shadow:0 0 22px -6px rgba(168,85,247,.6)}
+.to-top:hover{color:var(--purple);border-color:rgba(124,58,237,.5);box-shadow:0 10px 26px -12px var(--glow)}
 
 .toasts{position:fixed;bottom:24px;inset-inline-start:24px;z-index:1300;display:flex;flex-direction:column;gap:10px;max-width:min(360px,calc(100vw - 48px))}
 .toast{
   position:relative;display:flex;align-items:center;gap:11px;overflow:hidden;
-  background:rgba(19,19,22,.94);backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
   border:1px solid var(--border-2);border-radius:12px;padding:13px 18px 13px 16px;
   font-size:.87rem;color:var(--text);
-  box-shadow:0 18px 44px -14px rgba(0,0,0,.8);
+  box-shadow:0 18px 44px -18px rgba(28,28,40,.4);
   animation:toastIn .35s cubic-bezier(.2,.9,.3,1.15) both;
 }
 .toast::before{content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--grad)}
@@ -626,7 +633,7 @@ kbd{
         <nav class="breadcrumb" aria-label="مسیر صفحه">
           <a href="#" data-nav="صفحه اصلی">خانه</a><span>/</span>
           <a href="#" data-nav="آموزش">آموزش</a><span>/</span>
-          <span aria-current="page">مدل‌های زبانی بزرگ چگونه کار می‌کنند؟</span>
+          <span aria-current="page">هوش مصنوعی چیست؟</span>
         </nav>
 
         <header class="post-hero">
@@ -634,10 +641,10 @@ kbd{
             <a class="badge" href="#" data-nav="آموزش">آموزش</a>
             <span class="badge ghost">مقالات پایه</span>
           </div>
-          <h1 class="post-title">مدل‌های زبانی بزرگ چگونه کار می‌کنند؟ <span class="grad-text">سفر از توکن تا ترنسفورمر</span></h1>
-          <p class="post-lead">بدون فرمول‌های سنگین ریاضی، قدم‌به‌قدم دنبال می‌کنیم که یک جمله از لحظهٔ ورود تا تولید پاسخ داخل مدل‌هایی مثل ChatGPT و Claude چه مسیری را طی می‌کند.</p>
+          <h1 class="post-title">هوش مصنوعی چیست؟ <span class="grad-text">راهنمای ساده برای شروع</span></h1>
+          <p class="post-lead">در این مقاله بدون اصطلاحات پیچیده و به زبان روزمره یاد می‌گیریم هوش مصنوعی دقیقاً چیست، کجاهای زندگی‌مان پنهان شده و چطور می‌توانیم از همین امروز از آن استفاده کنیم.</p>
           <div class="post-meta">
-            <span class="meta-author"><span class="avatar" aria-hidden="true">س</span>سارا احمدی</span>
+            <span class="meta-author"><span class="avatar" aria-hidden="true">ا</span>ابوالفضل قاسمی</span>
             <span class="meta-sep" aria-hidden="true"></span>
             <span class="meta-item">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
@@ -646,16 +653,16 @@ kbd{
             <span class="meta-sep" aria-hidden="true"></span>
             <span class="meta-item">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-              <span id="readTime">۶ دقیقه مطالعه</span>
+              <span id="readTime">۵ دقیقه مطالعه</span>
             </span>
           </div>
         </header>
 
         <figure class="post-cover">
           <div class="frame">
-            <img src="https://picsum.photos/seed/maghze-llm/1600/700.jpg" width="1600" height="700" alt="نمایی مفهومی از شبکه‌های عصبی و جریان داده">
+            <img src="https://picsum.photos/seed/maghze-basic-ai/1600/700.jpg" width="1600" height="700" alt="نمایی مفهومی از هوش مصنوعی و فناوری روزمره">
           </div>
-          <figcaption>نمایی مفهومی از جریان داده در معماری ترنسفورمر — تصویر: مغزه</figcaption>
+          <figcaption>هوش مصنوعی دیگر آینده نیست؛ بخشی از زندگی امروز ماست — تصویر: مغزه</figcaption>
         </figure>
       </div>
     </div>
@@ -694,104 +701,103 @@ kbd{
           </details>
 
           <!-- ============ Article content ============ -->
-          <p>هر روز صبح که از دستیار هوشمندتان سؤالی می‌پرسید یا می‌بینید مدلی شعر فارسی می‌سراید و کد جاوااسکریپت می‌نویسد، این پرسش به سراغ‌تان می‌آید که پشت پردهٔ این جادو دقیقاً چه می‌گذرد. مدل‌های زبانی بزرگ یا همان <strong>LLM</strong>ها شاید شبیه جعبه‌ای سیاه به نظر برسند، اما مفاهیم سازندهٔ آن‌ها آن‌قدرها هم دور از دسترس نیست.</p>
-          <p>در این مقاله، بدون فرو رفتن در فرمول‌های پیچیده، مسیر یک جمله از لحظهٔ ورود تا تولید پاسخ را دنبال می‌کنیم؛ از <strong>توکن</strong> و <strong>امبدینگ</strong> تا <strong>مکانیزم توجه</strong> و فرایند آموزش. اگر به هوش مصنوعی علاقه‌مندید اما نقطهٔ شروع برای‌تان مبهم بوده، این متن برای شما نوشته شده است.</p>
+          <p>مطمئنیم تا حالا بارها جملهٔ «هوش مصنوعی آینده است» را شنیده‌اید. اما واقعیت این است که هوش مصنوعی آینده نیست؛ همین حالا هم دور و بر ماست و هر روز بدون آن‌که متوجه شویم از آن استفاده می‌کنیم. وقتی گوشی‌مان صورت‌مان را تشخیص می‌دهد، وقتی نقشهٔ گوگل سریع‌ترین مسیر را پیشنهاد می‌دهد یا وقتی اینستاگرام فیلمی را نشانمان می‌دهد که دقیقاً دوستش داریم، داریم با هوش مصنوعی کار می‌کنیم.</p>
+          <p>خبر خوب این است که برای شروع استفاده از هوش مصنوعی، نیازی به دانش برنامه‌نویسی یا ریاضیات ندارید. در این مقاله قدم‌به‌قدم و با مثال‌های ساده یاد می‌گیریم این فناوری چیست و چگونه می‌تواند در کارها و زندگی روزمره به ما کمک کند.</p>
 
-          <h2>۱. توکن؛ واحدهای سازندهٔ زبان</h2>
-          <p>اولین ایستگاه، توکنایزر است. مدل‌ها برخلاف ما، متن را کلمه‌به‌کلمه نمی‌بینند؛ آن‌ها متن خام را به قطعات کوچکی به نام <strong>توکن</strong> تقسیم می‌کنند. یک توکن می‌تواند یک کلمهٔ کامل، بخشی از یک کلمه یا حتی یک نشانهٔ ساده باشد. برای مثال، واژهٔ «مصنوعی» ممکن است در برخی توکنایزرها به دو قطعهٔ «مصنوع» و «ی» شکسته شود و هر قطعه به یک شناسهٔ عددی تبدیل گردد.</p>
-          <p>از دید مدل، کل این مقاله چیزی نیست جز دنباله‌ای طولانی از اعداد. مدل زبانی فقط یک کار انجام می‌دهد: <strong>پیش‌بینی توکن بعدی</strong> بر اساس توکن‌های قبلی. سادگی این هدف و پیچیدگی اجرای آن، جادوی اصلی ماجراست.</p>
+          <h2>۱. هوش مصنوعی دقیقاً یعنی چه؟</h2>
+          <p>تعریف ساده‌اش این است: <strong>هوش مصنوعی یعنی ساختن برنامه‌های کامپیوتری که می‌توانند کارهایی را انجام دهند که معمولاً به هوش انسانی نیاز دارند.</strong> کارهایی مثل فهمیدن زبان آدم‌ها، تشخیص چهره و تصویر، ترجمهٔ متن یا پیشنهاد دادن.</p>
+          <p>نکتهٔ مهم این است که هوش مصنوعی «جادو» نیست؛ فقط یک برنامهٔ کامپیوتری است که با میلیون‌ها مثال آموزش دیده است. درست مثل انسانی که با تمرین زیاد، کاری را استادانه یاد می‌گیرد — با این تفاوت که کامپیوتر می‌تواند در چند ساعت میلیون‌ها مثال را تمرین کند!</p>
 
-          <h3>چرا فارسی برای مدل‌ها چالش‌برانگیزتر است؟</h3>
-          <p>از آن‌جا که سهم متن فارسی در داده‌های آموزشی اینترنت کم است، توکنایزرهای رایج با فارسی چندان دوست نیستند. نیم‌فاصله‌ها، املای متنوع و فعل‌های پیچیده باعث می‌شود یک جملهٔ فارسی توکن‌های بیشتری نسبت به معادل انگلیسی‌اش مصرف کند؛ نتیجه؟ هزینهٔ بیشتر در فراخوانی API و محدودتر شدن طول متن قابل پردازش. کد زیر را اجرا کنید تا خودتان ببینید یک جملهٔ فارسی به چند توکن تبدیل می‌شود:</p>
+          <h2>۲. هوش مصنوعی کجاهای زندگی‌مان پنهان شده است؟</h2>
+          <p>شاید فکر کنید تا حالا از هوش مصنوعی استفاده نکرده‌اید، اما واقعیت چیز دیگری است. اگر گوشی هوشمند دارید یا اینترنت استفاده می‌کنید، تقریباً هر روز در حال کار با هوش مصنوعی هستید.</p>
 
-          <figure class="code-card">
-            <div class="code-head">
-              <span class="code-title">tokenizer.py</span>
-              <button class="copy-btn" type="button">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-                کپی
-              </button>
-            </div>
-<pre><code><span class="tk-k">import</span> tiktoken
+          <h3>چند مثال که هر روز می‌بینید</h3>
+          <ul>
+            <li><strong>قفل گوشی با چهره:</strong> گوشی شما یاد گرفته صورتتان را از میان میلیون‌ها چهرهٔ دیگر تشخیص دهد.</li>
+            <li><strong>فیلتر هرزنامه (اسپم):</strong> ایمیل‌های مزاحم قبل از رسیدن به صندوق شما شناسایی و حذف می‌شوند.</li>
+            <li><strong>پیشنهاد فیلم و موسیقی:</strong> نتفلیکس و اسپاتیفای سلیقهٔ شما را یاد می‌گیرند و چیزهای مورد علاقه‌تان را پیشنهاد می‌دهند.</li>
+            <li><strong>دستیارهای صوتی:</strong> وقتی به گوشی می‌گویید «زنگ بزن به…» یا «یادآوری کن…»، یک هوش مصنوعی حرفتان را می‌فهمد.</li>
+            <li><strong>مترجم گوگل:</strong> ترجمهٔ فوری متن و حتی عکس، نتیجهٔ سال‌ها آموزش مدل‌های هوش مصنوعی است.</li>
+          </ul>
+          <p>همین حالا هم هوش مصنوعی مثل یک دستیار خاموش در پس‌زمینهٔ زندگی‌مان کار می‌کند؛ فقط باید یاد بگیریم آگاهانه‌تر از آن استفاده کنیم.</p>
 
-<span class="tk-c"># ساخت انکودر استاندارد مدل‌های OpenAI</span>
-encoder = tiktoken.<span class="tk-f">get_encoding</span>(<span class="tk-s">"cl100k_base"</span>)
-
-text = <span class="tk-s">"هوش مصنوعی دنیا را تغییر می‌دهد"</span>
-tokens = encoder.<span class="tk-f">encode</span>(text)
-
-<span class="tk-f">print</span>(tokens)                   <span class="tk-c"># شناسهٔ عددی توکن‌ها</span>
-<span class="tk-f">print</span>(<span class="tk-f">len</span>(tokens))              <span class="tk-c"># تعداد توکن‌ها</span>
-<span class="tk-f">print</span>(encoder.<span class="tk-f">decode</span>(tokens))   <span class="tk-c"># بازسازی متن اصلی</span></code></pre>
-          </figure>
-
-          <h2>۲. امبدینگ؛ نقشهٔ معنا در فضای برداری</h2>
-          <p>هر شناسهٔ عددی به یک بردار از اعداد اعشاری تبدیل می‌شود که به آن <strong>امبدینگ</strong> می‌گوییم؛ معمولاً با هزاران بُعد. نکتهٔ جذاب این‌جاست که این بردارها هندسهٔ معنا را بازسازی می‌کنند: واژه‌هایی با مفهوم نزدیک، در این فضا کنار هم قرار می‌گیرند. به همین دلیل است که رابطهٔ معروف «پادشاه منهای مرد، به‌علاوهٔ زن برابر است با ملکه» در فضای امبدینگ تقریباً برقرار است.</p>
+          <h2>۳. یادگیری ماشین؛ آموزش دادن با مثال به‌جای دستور</h2>
+          <p>حتماً عبارت «یادگیری ماشین» را هم شنیده‌اید. این دو مفهوم خیلی ساده به هم وصل می‌شوند: <strong>یادگیری ماشین، روش اصلی آموزش دادن به هوش مصنوعی است.</strong></p>
+          <p>در برنامه‌نویسی قدیمی، برنامه‌نویس باید تک‌تک قوانین را دقیق می‌نوشت. مثلاً برای تشخیص سیب، باید می‌نوشت: «اگر دایره‌ای شکل بود، رنگش قرمز بود و ساقه داشت، سیب است.» اما مشکل اینجاست که دنیا همیشه این‌قدر منظم نیست؛ سیب سبز هم هست، نیمهٔ خورده هم هست و زاویهٔ عکس هم فرق می‌کند!</p>
+          <p>در یادگیری ماشین، به‌جای نوشتن قانون، به کامپیوتر <strong>هزاران عکس سیب با برچسب «سیب»</strong> نشان می‌دهیم. کامپیوتر خودش الگوها را پیدا می‌کند و یاد می‌گیرد — درست مثل کودکی که با دیدن سیب‌های مختلف، خودش می‌فهمد سیب چه شکلی است.</p>
 
           <div class="callout tip">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
             <div>
               <div class="callout-title">نکته</div>
-              <p>امبدینگ‌ها فقط ویژگی مدل‌های زبانی نیستند؛ پایهٔ فناوری جستجوی معنایی و معماری <a href="#" data-nav="مقالهٔ RAG">RAG</a> نیز همین بردارها هستند — موضوعی که به‌زودی در مقاله‌ای جداگانه به آن می‌پردازیم.</p>
+              <p>این جمله را ساده به خاطر بسپارید: <strong>هر یادگیری ماشینی، هوش مصنوعی است؛ اما همهٔ هوش مصنوعی‌ها لزوماً یادگیری ماشین نیستند.</strong> یادگیری ماشین محبوب‌ترین و پرکاربردترین روش ساخت هوش مصنوعی امروز است.</p>
             </div>
           </div>
 
-          <h2>۳. مکانیزم توجه؛ قلب تپندهٔ ترنسفورمر</h2>
-          <p>شکست بزرگ معماری‌های قدیمی در این بود که جمله را مثل زنجیره‌ای یک‌طرفه پردازش می‌کردند و در متن‌های طولانی، ابتدای ماجرا فراموش می‌شد. مقالهٔ سال ۲۰۱۷ با عنوان <strong>Attention Is All You Need</strong> این نقطه‌ضعف را هدف گرفت و معماری <strong>ترنسفورمر</strong> را معرفی کرد؛ معماری‌ای که امروز زیربنای تقریباً همهٔ مدل‌های زبانی است.</p>
-          <p>در مکانیزم توجه، هر توکن به همهٔ توکن‌های دیگر «نگاه» می‌کند و بر اساس میزان ارتباط، به آن‌ها وزن می‌دهد. مثلاً در جملهٔ «شیر آب را ببند»، مدل باید بفهمد «شیر» با «آب» در ارتباط است، نه با حیوان جنگل. این وزن‌دهی پویا، درک بافت (Context) را ممکن می‌کند.</p>
+          <h2>۴. ابزارهایی که همین امروز می‌توانید امتحان کنید</h2>
+          <p>بهترین راه فهمیدن هوش مصنوعی، استفاده از آن است. محبوب‌ترین نوع این ابزارها «چت‌بات‌ها» هستند؛ دستیارهایی که با زبان خودمان حرف می‌زنیم و به سؤال‌هایمان جواب می‌دهند. راز گرفتن جواب خوب از آن‌ها فقط یک چیز است: <strong>سؤال را واضح و با جزئیات بپرسید.</strong> این نمونه را کپی کنید و در ChatGPT یا Gemini امتحان کنید:</p>
+
+          <figure class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">نمونه پرامپت برای شروع</span>
+              <button class="copy-btn" type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                کپی
+              </button>
+            </div>
+            <blockquote class="copy-target">سلام! می‌خواهم در پنج دقیقه با هوش مصنوعی آشنا شوم. لطفاً مثل یک معلم صبور و ساده‌گو، سه مثال کاربردی از کارهایی که هوش مصنوعی می‌تواند در زندگی روزمرهٔ من انجام دهد بزن و در انتها یک تمرین کوچک پیشنهاد بده که همین امروز انجامش بدهم.</blockquote>
+          </figure>
+
+          <p>چند ابزار ساده و پرکاربرد که نقطهٔ شروع خوبی هستند:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>ابزار</th><th>چه کاری می‌کند؟</th><th>یک مثال ساده</th><th>هزینه</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>ChatGPT</strong></td><td>گفتگو، نوشتن متن و ایده‌پردازی</td><td>نوشتن پیام تبریک رسمی برای همکار</td><td><span class="pill free">رایگان</span></td></tr>
+                <tr><td><strong>Gemini</strong></td><td>پاسخ به سؤال و خلاصه‌سازی</td><td>خلاصه‌کردن یک مقالهٔ طولانی</td><td><span class="pill free">رایگان</span></td></tr>
+                <tr><td><strong>مترجم گوگل</strong></td><td>ترجمهٔ متن و تصویر</td><td>خواندن منوی رستوران در سفر خارجی</td><td><span class="pill free">رایگان</span></td></tr>
+                <tr><td><strong>Canva</strong></td><td>ساخت تصویر و طراحی با کمک AI</td><td>طراحی پست اینستاگرام در دو دقیقه</td><td><span class="pill freemium">نسخهٔ رایگان دارد</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>۵. آیا هوش مصنوعی جای انسان را می‌گیرد؟</h2>
+          <p>این پرتکرارترین نگرانی این روزهاست. پاسخ صادقانه این است: هوش مصنوعی بیشتر از اینکه «جای» انسان را بگیرد، <strong>روش کار انسان را تغییر می‌دهد.</strong> ماشین‌حساب، کار حسابداری دستی را منسوخ کرد، اما حسابدارها بی‌کار نشدند؛ فقط کارشان سریع‌تر و دقیق‌تر شد. همین اتفاق برای خیلی از مشاغل در حال رخ دادن است.</p>
+          <p>هوش مصنوعی در تکرار کارهای خسته‌کننده و جستجو در حجم عظیم اطلاعات عالی است، اما خلاقیت واقعی، همدلی، قضاوت اخلاقی و تصمیم‌گیری در موقعیت‌های پیچیده هنوز حوزهٔ انسان است. کسی که یاد بگیرد با این ابزارها کار کند، جای کسی که یاد نگرفته را خواهد گرفت.</p>
 
           <blockquote>
-            <p>ما معماری جدیدی ارائه می‌دهیم که صرفاً بر مکانیزم‌های توجه متکی است و از بازگشت و کانولوشن به‌کلی صرف‌نظر می‌کند.</p>
-            <cite>واسوانی و همکاران، مقالهٔ Attention Is All You Need، ۲۰۱۷</cite>
+            <p>هوش مصنوعی برقِ جدید است؛ درست مثل برق که همهٔ صنایع را متحول کرد، هوش مصنوعی هم به‌زودی به بخشی از همهٔ کارها تبدیل می‌شود.</p>
+            <cite>اندرو اِنگ، استاد دانشگاه استنفورد</cite>
           </blockquote>
-
-          <h2>۴. آموزش؛ سه ایستگاه از دادهٔ خام تا رفتار فهیم</h2>
-          <p><strong>پیش‌آموزش:</strong> مدل روی کوهی از متن — بخش بزرگی از اینترنت — فقط تمرین پیش‌بینی توکن بعدی را انجام می‌دهد. این مرحله پرهزینه‌ترین بخش ماجراست و مدل در پایان آن دانش وسیعی دارد، اما هنوز نمی‌داند چگونه یک دستیار مفید باشد.</p>
-          <p><strong>تنظیم دقیق نظارت‌شده (SFT):</strong> با هزاران نمونهٔ گفت‌وگوی باکیفیت، مدل یاد می‌گیرد پرسش‌ها را به سبک یک پاسخ‌ده گویا جواب دهد.</p>
-          <p><strong>یادگیری تقویتی با بازخورد انسانی (RLHF):</strong> پاسخ‌های مدل توسط انسان‌ها رتبه‌بندی می‌شود و مدل طوری تنظیم می‌گردد که پاسخ‌های مفیدتر، صادقانه‌تر و بی‌ضررتری تولید کند.</p>
-
-          <h3>چرا مدل گاهی با اعتمادبه‌نفس کامل، چرت می‌گوید؟</h3>
-          <p>پدیده‌ای که به <strong>توهم‌زایی</strong> (Hallucination) مشهور شده، ریشه در ماهیت احتمالاتی این مدل‌ها دارد: مدل همیشه محتمل‌ترین ادامهٔ متن را تولید می‌کند، نه لزوماً درست‌ترین را. وقتی پاسخ در داده‌های آموزشی وجود نداشته باشد، مدل به‌جای سکوت، روایتی محتمل — و گاه کاملاً ساختگی — می‌سازد.</p>
 
           <div class="callout warn">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
             <div>
               <div class="callout-title">هشدار</div>
-              <p>هرگز خروجی مدل‌های زبانی — به‌ویژه ارجاع‌ها، آمار و نقل‌قول‌ها — را بدون راستی‌آزمایی منتشر نکنید. مسئولیت نهایی همیشه با انسان است.</p>
+              <p>چت‌بات‌ها گاهی با اعتمادبه‌نفس کامل، جواب اشتباه می‌دهند. جواب‌های مهم — مخصوصاً آمار، تاریخ‌ها و توصیه‌های پزشکی و حقوقی — را همیشه از منبع معتبر چک کنید.</p>
             </div>
           </div>
 
-          <p>برای درک بهتر چشم‌انداز، نگاهی به چند مدل محبوب این روزها بیندازیم:</p>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>مدل</th><th>سازنده</th><th>متن‌باز</th><th>نکتهٔ کلیدی</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>GPT-4o</strong></td><td>OpenAI</td><td><span class="pill no">خیر</span></td><td>چندوجهی و سریع؛ ورودی صدا و تصویر</td></tr>
-                <tr><td><strong>Claude</strong></td><td>Anthropic</td><td><span class="pill no">خیر</span></td><td>قدرت در متون و کدهای طولانی</td></tr>
-                <tr><td><strong>Gemini</strong></td><td>Google</td><td><span class="pill no">خیر</span></td><td>ادغام عمیق با اکوسیستم گوگل</td></tr>
-                <tr><td><strong>Llama 3</strong></td><td>Meta</td><td><span class="pill yes">بله</span></td><td>انتخاب اول پژوهشگران و استقرار محلی</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <h2>۶. از کجا شروع کنیم؟ سه قدم ساده</h2>
+          <p>شروع کردن با هوش مصنوعی ساده‌تر از چیزی است که فکر می‌کنید. این سه قدم را همین هفته انجام دهید:</p>
+          <ol>
+            <li><strong>هر روز با یک چت‌بات حرف بزنید.</strong> یک حساب رایگان در ChatGPT یا Gemini بسازید و سؤال‌های معمولی زندگی‌تان را از آن بپرسید؛ از نوشتن متن تا برنامهٔ غذایی هفته.</li>
+            <li><strong>سؤال‌پرسیدن را تمرین کنید.</strong> به‌جای «دربارهٔ ورزش بنویس»، بنویسید «یک برنامهٔ ورزشی ۱۵ دقیقه‌ای برای فردی که همه‌روزه پشت میز کار می‌کند بنویس». هرچه دقیق‌تر، جواب بهتر.</li>
+            <li><strong>هفته‌ای یک خبر بخوانید.</strong> بخش اخبار مغزه را دنبال کنید تا با تغییرات مهم این دنیای پرسرعت، بدون استرس و به زبان ساده به‌روز بمانید.</li>
+          </ol>
 
-          <h2>۵. جمع‌بندی و گام‌های بعدی</h2>
-          <p>مسیر یک جمله در مدل زبانی را مرور کنیم: متن به توکن شکسته می‌شود، توکن‌ها به بردارهای معنادار (امبدینگ) تبدیل می‌شوند، مکانیزم توجه روابط میان آن‌ها را وزن‌دهی می‌کند و مدلی که طی سه مرحله آموزش دیده، توکن بعدی را پیش‌بینی می‌کند — و این چرخه هزاران بار تکرار می‌شود تا پاسخ نهایی شکل بگیرد.</p>
-          <p>اگر می‌خواهید عمیق‌تر شوید، این منابع نقطهٔ شروع خوبی‌اند:</p>
-          <ul>
-            <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">مقالهٔ اصلی Attention Is All You Need</a> — سند بنیادین ترنسفورمرها</li>
-            <li><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">راهنمای مصور ترنسفورمر</a> — بهترین منبع بصری برای درک معماری</li>
-            <li><a href="https://web.stanford.edu/class/cs224n/" target="_blank" rel="noopener">دورهٔ CS224N استنفورد</a> — پردازش زبان طبیعی، رایگان و کامل</li>
-          </ul>
-          <p>سؤال یا تجربه‌ای در این زمینه دارید؟ برای ما بنویسید؛ مسیر یادگیری هوش مصنوعی با هم کوتاه‌تر است.</p>
+          <h2>۷. جمع‌بندی</h2>
+          <p>هوش مصنوعی یعنی برنامه‌هایی که با دیدن میلیون‌ها مثال، کارهای هوشمندانه یاد گرفته‌اند؛ از تشخیص چهرهٔ شما تا پاسخ دادن به سؤال‌هایتان. یادگیری ماشین یعنی روش آموزش این برنامه‌ها با مثال به‌جای قانون‌نویسی. و مهم‌تر از همه: برای استفاده از این فناوری نیازی به تخصص ندارید — فقط باید شروع کنید.</p>
+          <p>اگر این مقاله برایتان مفید بود، آن را برای دوستانی بفرستید که می‌گویند «هوش مصنوعی درس من نیست!» و در بخش دیدگاه‌ها بنویسید اولین سؤالی که از یک چت‌بات پرسیده‌اید. مسیر یادگیری هوش مصنوعی با هم کوتاه‌تر است.</p>
 
           <!-- Tags -->
           <div class="tags" aria-label="برچسب‌ها">
             <button class="tag" type="button" data-nav="برچسب هوش مصنوعی">#هوش_مصنوعی</button>
-            <button class="tag" type="button" data-nav="برچسب ترنسفورمر">#ترنسفورمر</button>
-            <button class="tag" type="button" data-nav="برچسب LLM">#LLM</button>
-            <button class="tag" type="button" data-nav="برچسب یادگیری عمیق">#یادگیری_عمیق</button>
+            <button class="tag" type="button" data-nav="برچسب یادگیری ماشین">#یادگیری_ماشین</button>
+            <button class="tag" type="button" data-nav="برچسب ChatGPT">#ChatGPT</button>
+            <button class="tag" type="button" data-nav="برچسب شروع">#شروع_یادگیری</button>
           </div>
 
           <!-- Share -->
@@ -810,10 +816,10 @@ tokens = encoder.<span class="tk-f">encode</span>(text)
 
           <!-- Author -->
           <div class="author-box">
-            <span class="author-avatar" aria-hidden="true">س</span>
+            <span class="author-avatar" aria-hidden="true">ا</span>
             <div>
-              <h3>سارا احمدی</h3>
-              <p>مهندس یادگیری ماشین و نویسندهٔ مغزه. علاقه‌مند به توضیح دادن مفاهیم پیچیدهٔ هوش مصنوعی با ساده‌ترین کلمات ممکن؛ باور دارد هیچ مفهومی ذاتاً سخت نیست، فقط بد توضیح داده شده است.</p>
+              <h3>ابوالفضل قاسمی</h3>
+              <p>نویسنده و پژوهشگر حوزهٔ هوش مصنوعی در مغزه. باور دارد هیچ فناوری‌ای نباید مالِ معدودی از آدم‌ها باشد و تلاش می‌کند مفاهیم پیچیدهٔ دنیای AI را با ساده‌ترین و صمیمی‌ترین زبان ممکن برای همه بنویسد.</p>
             </div>
           </div>
         </div>
@@ -847,22 +853,22 @@ tokens = encoder.<span class="tk-f">encode</span>(text)
       <div class="cards">
         <article class="card reveal" id="rel-1" style="--d:.05s">
           <div class="card-media">
-            <img src="https://picsum.photos/seed/maghze-prompt/640/400.jpg" width="640" height="400" alt="" loading="lazy">
-            <span class="card-badge">آموزش</span>
+            <img src="https://picsum.photos/seed/maghze-ml/640/400.jpg" width="640" height="400" alt="" loading="lazy">
+            <span class="card-badge">مقالات پایه</span>
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>۳ آبان ۱۴۰۳</span>
-              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>۸ دقیقه</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>۵ آبان ۱۴۰۳</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>۷ دقیقه</span>
             </div>
-            <h3 class="card-title"><a href="#" data-nav="پرامپت‌نویسی حرفه‌ای">پرامپت‌نویسی حرفه‌ای؛ ۱۰ تکنیک طلایی برای نتایج بهتر</a></h3>
-            <p class="card-excerpt">از فرمان نقش‌محور تا زنجیرهٔ تفکر؛ تکنیک‌هایی که کیفیت خروجی شما از مدل‌های زبانی را متحول می‌کنند.</p>
+            <h3 class="card-title"><a href="#" data-nav="تفاوت هوش مصنوعی و یادگیری ماشین">تفاوت هوش مصنوعی، یادگیری ماشین و یادگیری عمیق به زبان ساده</a></h3>
+            <p class="card-excerpt">این سه عبارت همیشه با هم به کار می‌روند و گیج‌کننده‌اند؛ بیایید با یک مثال ساده تفاوتشان را یک‌بار برای همیشه بفهمیم.</p>
           </div>
         </article>
 
         <article class="card reveal" id="rel-2" style="--d:.15s">
           <div class="card-media">
-            <img src="https://picsum.photos/seed/maghze-tools/640/400.jpg" width="640" height="400" alt="" loading="lazy">
+            <img src="https://picsum.photos/seed/maghze-daily/640/400.jpg" width="640" height="400" alt="" loading="lazy">
             <span class="card-badge">ابزارها</span>
           </div>
           <div class="card-body">
@@ -870,23 +876,23 @@ tokens = encoder.<span class="tk-f">encode</span>(text)
               <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>۲۸ مهر ۱۴۰۳</span>
               <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>۶ دقیقه</span>
             </div>
-            <h3 class="card-title"><a href="#" data-nav="ابزارهای رایگان هوش مصنوعی">۱۰ ابزار رایگان هوش مصنوعی که باید در ۱۴۰۳ بشناسید</a></h3>
-            <p class="card-excerpt">از ساخت تصویر تا تحلیل داده؛ ابزارهایی که بدون پرداخت هزینه، بهره‌وری شما را چند برابر می‌کنند.</p>
+            <h3 class="card-title"><a href="#" data-nav="دستیارهای هوش مصنوعی رایگان">۵ دستیار هوش مصنوعی رایگان برای کارهای روزمره</a></h3>
+            <p class="card-excerpt">از نوشتن پیام تا برنامه‌ریزی هفتگی؛ ابزارهایی که بدون هزینه، کارهای روزانهٔ شما را سبک‌تر می‌کنند.</p>
           </div>
         </article>
 
         <article class="card reveal" id="rel-3" style="--d:.25s">
           <div class="card-media">
-            <img src="https://picsum.photos/seed/maghze-neuron/640/400.jpg" width="640" height="400" alt="" loading="lazy">
-            <span class="card-badge">مقالات پایه</span>
+            <img src="https://picsum.photos/seed/maghze-prompt2/640/400.jpg" width="640" height="400" alt="" loading="lazy">
+            <span class="card-badge">آموزش</span>
           </div>
           <div class="card-body">
             <div class="card-meta">
               <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>۲۱ مهر ۱۴۰۳</span>
-              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>۱۲ دقیقه</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>۵ دقیقه</span>
             </div>
-            <h3 class="card-title"><a href="#" data-nav="شبکه‌های عصبی از صفر">شبکه‌های عصبی از صفر؛ مفهوم نورون مصنوعی به زبان ساده</a></h3>
-            <p class="card-excerpt">پشت اصطلاحات ترسناک، یک مفهوم ریاضی ساده نشسته است؛ بیایید آن را با یک مثال ملموس بسازیم.</p>
+            <h3 class="card-title"><a href="#" data-nav="هنر سؤال پرسیدن از چت‌بات‌ها">هنر سؤال پرسیدن از هوش مصنوعی؛ چطور جواب بهتر بگیریم؟</a></h3>
+            <p class="card-excerpt">جوابِ خوب از هوش مصنوعی، از سؤال خوب شروع می‌شود؛ با این ۵ ترفند ساده حرفه‌ای شوید.</p>
           </div>
         </article>
       </div>
@@ -904,7 +910,7 @@ tokens = encoder.<span class="tk-f">encode</span>(text)
           <span class="logo-text grad-text">مغزه</span>
           <span class="logo-domain" dir="ltr">maghze.ir</span>
         </a>
-        <p>مغزه رسانهٔ مستقل هوش مصنوعی فارسی‌زبان است؛ جایی برای فهمیدن دقیق و بی‌ادعای فناوری‌ای که آیندهٔ همهٔ ما را می‌سازد. هر هفته آموزش‌های گام‌به‌گام، اخبار دست‌اول و معرفی ابزارهای کاربردی منتشر می‌کنیم.</p>
+        <p>مغزه رسانهٔ فارسی‌زبان هوش مصنوعی است؛ جایی که مفاهیم پیچیدهٔ دنیای AI را ساده، صادقانه و بدون اغراق برای همه توضیح می‌دهیم. هر هفته آموزش‌های گام‌به‌گام، اخبار و معرفی ابزارهای کاربردی منتشر می‌کنیم.</p>
         <div class="socials">
           <a class="share-btn" href="#" data-nav="تلگرام مغزه" aria-label="تلگرام مغزه">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.8 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.25.25-.45.45-.93.45l.33-4.7 8.6-7.8c.37-.33-.08-.5-.57-.19L7.1 12.9l-4.55-1.43c-.99-.31-1-.99.2-1.46L20.5 3.1c.83-.3 1.55.2 1.4 1.5z"/></svg>
@@ -959,9 +965,9 @@ const $ = s => document.querySelector(s);
 const toFa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
 const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
 const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const CANON = 'https://maghze.ir/blog/how-llms-work';
+const CANON = 'https://maghze.ir/blog/what-is-ai';
 
-/* ---------- toast system (no alert/confirm) ---------- */
+/* ---------- toast system ---------- */
 const toastBox = $('#toasts');
 function toast(msg){
   if (toastBox.children.length >= 3) toastBox.firstElementChild.remove();
@@ -973,7 +979,7 @@ function toast(msg){
   setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 320); }, 3400);
 }
 
-/* ---------- demo-page links (nav to pages that don't exist in this preview) ---------- */
+/* ---------- demo-page links ---------- */
 document.querySelectorAll('[data-nav]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
@@ -1012,19 +1018,18 @@ heads.forEach((h, i) => {
 let links = [...tocList.querySelectorAll('a')];
 let mLinks = [...tocMobileList.querySelectorAll('a')];
 
-/* close the mobile TOC after choosing an item (delegation covers cloned nodes) */
 tocMobileList.addEventListener('click', () => { $('#tocMobile').removeAttribute('open'); });
 
 /* ---------- reading time (computed from actual text) ---------- */
 const body = $('#postBody');
 {
   const clone = body.cloneNode(true);
-  clone.querySelectorAll('pre, .toc-mobile, .reading-tools').forEach(n => n.remove());
+  clone.querySelectorAll('.toc-mobile, .reading-tools, .prompt-card, .table-wrap, .tags, .share, .author-box').forEach(n => n.remove());
   const words = clone.textContent.trim().split(/\s+/).length;
   $('#readTime').textContent = toFa(Math.max(1, Math.round(words / 160))) + ' دقیقه مطالعه';
 }
 
-/* ---------- scroll engine: progress bar, scroll-spy, TOC synapse fill ---------- */
+/* ---------- scroll engine: progress bar, scroll-spy, TOC fill ---------- */
 const fill = $('#progressFill'), tocFill = $('#tocFill'),
       rtPct = $('#rtPct'), tocPct = $('#tocPct'), rtBar = $('#rtBarFill'),
       art = $('#article'), toTop = $('#toTop');
@@ -1034,7 +1039,6 @@ function update(){
   header.classList.toggle('scrolled', y > 8);
   toTop.classList.toggle('show', y > 700);
 
-  /* article reading progress */
   const start = art.offsetTop;
   const total = art.offsetHeight - vh;
   const p = total > 0 ? clamp((y - start) / total, 0, 1) : 1;
@@ -1044,7 +1048,6 @@ function update(){
   rtPct.textContent = toFa(pct) + '٪';
   tocPct.textContent = toFa(pct) + '٪';
 
-  /* scroll-spy: last heading that passed the probe line */
   let cur = 0;
   for (let i = 0; i < heads.length; i++) {
     if (heads[i].getBoundingClientRect().top <= 160) cur = i;
@@ -1055,7 +1058,6 @@ function update(){
     a.classList.toggle('is-active', i === cur);
     a.classList.toggle('is-done', i < cur);
   }));
-  /* synapse fill tracks the active node position */
   const li = links[cur] && links[cur].parentElement;
   if (li) tocFill.style.height = (li.offsetTop + li.offsetHeight / 2) + 'px';
 }
@@ -1080,15 +1082,16 @@ dec.addEventListener('click', () => { si = Math.max(0, si - 1); applyFs(); });
 inc.addEventListener('click', () => { si = Math.min(steps.length - 1, si + 1); applyFs(); });
 applyFs();
 
-/* ---------- copy code ---------- */
+/* ---------- copy buttons (prompt card, etc.) ---------- */
 document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('click', async () => {
-  const code = btn.closest('.code-card').querySelector('pre').innerText;
-  try { await navigator.clipboard.writeText(code); }
+  const box = btn.closest('.prompt-card, .code-card');
+  const text = box.querySelector('.copy-target, pre').innerText;
+  try { await navigator.clipboard.writeText(text); }
   catch {
-    const ta = Object.assign(document.createElement('textarea'), { value: code });
+    const ta = Object.assign(document.createElement('textarea'), { value: text });
     document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
   }
-  toast('کد در کلیپ‌بورد کپی شد.');
+  toast('در کلیپ‌بورد کپی شد.');
 }));
 
 /* ---------- share ---------- */
@@ -1104,14 +1107,14 @@ document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('clic
 
 /* ---------- live search with local index ---------- */
 const ARTICLES = [
-  { t: 'مدل‌های زبانی بزرگ چگونه کار می‌کنند؟ سفر از توکن تا ترنسفورمر', c: 'آموزش', self: true },
-  { t: 'پرامپت‌نویسی حرفه‌ای؛ ۱۰ تکنیک طلایی برای نتایج بهتر', c: 'آموزش', target: 'rel-1' },
-  { t: '۱۰ ابزار رایگان هوش مصنوعی که باید در ۱۴۰۳ بشناسید', c: 'ابزارها', target: 'rel-2' },
-  { t: 'شبکه‌های عصبی از صفر؛ مفهوم نورون مصنوعی به زبان ساده', c: 'مقالات پایه', target: 'rel-3' },
-  { t: 'RAG چیست؟ اتصال مدل‌های زبانی به دانش اختصاصی', c: 'آموزش' },
-  { t: 'معرفی مدل o3 توسط OpenAI؛ جهشی در استدلال ماشینی', c: 'اخبار' },
-  { t: 'هوش مصنوعی در پزشکی؛ از تصویربرداری تا کشف دارو', c: 'اخبار' },
-  { t: 'مقایسهٔ Claude و ChatGPT؛ کدام برای کار شما مناسب‌تر است؟', c: 'مقالات پایه' },
+  { t: 'هوش مصنوعی چیست؟ راهنمای ساده برای شروع', c: 'مقالات پایه', self: true },
+  { t: 'تفاوت هوش مصنوعی، یادگیری ماشین و یادگیری عمیق به زبان ساده', c: 'مقالات پایه', target: 'rel-1' },
+  { t: '۵ دستیار هوش مصنوعی رایگان برای کارهای روزمره', c: 'ابزارها', target: 'rel-2' },
+  { t: 'هنر سؤال پرسیدن از هوش مصنوعی؛ چطور جواب بهتر بگیریم؟', c: 'آموزش', target: 'rel-3' },
+  { t: 'یادگیری ماشین چیست؟ آموزش کامپیوتر با مثال', c: 'آموزش' },
+  { t: 'چت‌بات چیست و چطور کار می‌کند؟', c: 'مقالات پایه' },
+  { t: 'هوش مصنوعی در زندگی روزمره؛ از گوشی تا خانهٔ هوشمند', c: 'اخبار' },
+  { t: 'معرفی ChatGPT؛ اولین دستیار هوشمند شما', c: 'آموزش' },
 ];
 
 function attachSearch(form){
